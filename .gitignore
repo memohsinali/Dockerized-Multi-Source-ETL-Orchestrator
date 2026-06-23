@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+.pytest_cache/
+
+# Virtual environments
+venv/
+.env
+.env.local
+.env.*.local
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# IDE/editor
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Logs and runtime files
+*.log
+*.sqlitedb
+*.db
+*.sqlite3
+*.pid
+*.seed
+
+# Airflow
+airflow/airflow.cfg
+airflow/airflow.db
+airflow/logs/
+airflow/plugins/
+airflow/unittests/
+
+# Docker
+docker-compose.override.yml
+**/Dockerfile.*.local
+**/docker-compose.*.local.yml
+*.env
+
+# Terraform
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/*.tfvars
+terraform/.terraform.lock.hcl
+
+# Data and artifacts
+data/
+*.parquet
+*.csv
+*.xlsx
+
+# Python packaging
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# macOS
+.DS_Store
+
+# System
+thumbs.db
