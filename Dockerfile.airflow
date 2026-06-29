@@ -1,0 +1,18 @@
+FROM apache/airflow:2.9.1-python3.11
+
+# Install Python dependencies
+COPY requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
+
+# Copy DAGs
+COPY airflow/dags/ /opt/airflow/dags/
+
+# Copy ETL code
+COPY etl/ /opt/airflow/etl/
+
+# Copy sample datasets
+COPY data/ /opt/airflow/data/
+
+# Allow Python imports like:
+# from etl.extractors.csv_extractor import ...
+ENV PYTHONPATH="/opt/airflow:${PYTHONPATH}"

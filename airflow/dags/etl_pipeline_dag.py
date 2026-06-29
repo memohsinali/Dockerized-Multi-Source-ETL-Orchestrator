@@ -5,12 +5,12 @@ from datetime import datetime, timedelta
 from etl.extractors.csv_extractor import extract_csv
 from etl.extractors.api_extractor import extract_api
 from etl.extractors.mongo_extractor import extract_mongo
-from etl.validators.schemas import CsvCustomerRecord, ApiPostRecord, MongoProductRecord
+from etl.validators.schemas import CsvCustomerRecord, ApiPostRecord, MongoUserRecord
 from etl.validators.validator import validate_records
-from loaders.postgres_loader import (
+from etl.loaders.postgres_loader import (
     load_csv_customers,
     load_api_posts,
-    load_mongo_products
+    load_mongo_users
 )
 
 # ─── Default arguments for all tasks ───────────────────────────────────────────
@@ -33,7 +33,7 @@ def task_extract_api(**context):
     context["ti"].xcom_push(key="api_records", value=records)
 
 def task_extract_mongo(**context):
-    records = extract_mongo("products")
+    records = extract_mongo("users")
     context["ti"].xcom_push(key="mongo_records", value=records)
 
 def task_validate_and_load(**context):
@@ -47,12 +47,12 @@ def task_validate_and_load(**context):
     # Validate each source
     csv_valid,   csv_invalid   = validate_records(csv_raw,   CsvCustomerRecord, "CSV")
     api_valid,   api_invalid   = validate_records(api_raw,   ApiPostRecord,     "API")
-    mongo_valid, mongo_invalid = validate_records(mongo_raw, MongoProductRecord, "MongoDB")
+    mongo_valid, mongo_invalid = validate_records(mongo_raw, MongoUserRecord, "MongoDB")
 
     # Load valid records
     load_csv_customers(csv_valid)
     load_api_posts(api_valid)
-    load_mongo_products(mongo_valid)
+    load_mongo_users(mongo_valid)
 
     # Surface summary
     print(f"CSV:   {len(csv_valid)} valid, {len(csv_invalid)} invalid")

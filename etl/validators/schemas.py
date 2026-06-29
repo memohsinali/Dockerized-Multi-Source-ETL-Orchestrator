@@ -28,7 +28,7 @@ class CsvCustomerRecord(BaseModel):
     PhoneService: str
     Contract: ContractEnum
     MonthlyCharges: float
-    TotalCharges: Optional[float] = None    # can be blank for new customers
+    TotalCharges: Optional[int] = None    # can be blank for new customers
 
     # Derived / output field — not in raw CSV, we compute it
     Churn: str

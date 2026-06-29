@@ -1,44 +1,61 @@
--- Customers (from CSV)
+-- ==========================================================
+-- CSV : Telco Customer Churn
+-- ==========================================================
+
 CREATE TABLE IF NOT EXISTS csv_customers (
-    id          SERIAL PRIMARY KEY,
-    source_id   INT NOT NULL,
-    name        VARCHAR(255) NOT NULL,
-    email       VARCHAR(255) NOT NULL,
-    signup_date DATE NOT NULL,
-    country     CHAR(2) NOT NULL,
-    loaded_at   TIMESTAMP DEFAULT NOW()
+    customer_id      VARCHAR(50) PRIMARY KEY,
+    gender           VARCHAR(10) NOT NULL,
+    senior_citizen   INTEGER NOT NULL,
+    tenure           INTEGER NOT NULL,
+    phone_service    VARCHAR(10) NOT NULL,
+    contract         VARCHAR(30) NOT NULL,
+    monthly_charges  NUMERIC(10,2) NOT NULL,
+    total_charges    NUMERIC(10,2),
+    churn            VARCHAR(5) NOT NULL,
+    loaded_at        TIMESTAMP DEFAULT NOW()
 );
 
--- Posts (from REST API)
+
+-- ==========================================================
+-- REST API Posts
+-- ==========================================================
+
 CREATE TABLE IF NOT EXISTS api_posts (
-    id          SERIAL PRIMARY KEY,
-    user_id     INT NOT NULL,
-    source_id   INT NOT NULL,
-    title       TEXT NOT NULL,
-    body        TEXT NOT NULL,
-    loaded_at   TIMESTAMP DEFAULT NOW()
+    source_id     INTEGER PRIMARY KEY,
+    user_id       INTEGER NOT NULL,
+    title         TEXT NOT NULL,
+    body          TEXT NOT NULL,
+    loaded_at     TIMESTAMP DEFAULT NOW()
 );
 
--- Products (from MongoDB)
-CREATE TABLE IF NOT EXISTS mongo_products (
-    id           SERIAL PRIMARY KEY,
-    mongo_id     VARCHAR(50) NOT NULL,
-    product_name VARCHAR(255) NOT NULL,
-    price        NUMERIC(10,2) NOT NULL,
-    category     VARCHAR(100) NOT NULL,
-    in_stock     BOOLEAN NOT NULL,
-    tags         TEXT[],
-    loaded_at    TIMESTAMP DEFAULT NOW()
+
+-- ==========================================================
+-- Mongo Users
+-- ==========================================================
+
+CREATE TABLE IF NOT EXISTS mongo_users (
+    mongo_id      VARCHAR(100) PRIMARY KEY,
+    name          VARCHAR(255) NOT NULL,
+    email         VARCHAR(255) NOT NULL,
+    age           INTEGER NOT NULL,
+    country       CHAR(2) NOT NULL,
+    is_active     BOOLEAN NOT NULL,
+    tags          TEXT[],
+    loaded_at     TIMESTAMP DEFAULT NOW()
 );
 
--- ETL Run Log: tracks every pipeline execution
+
+-- ==========================================================
+-- ETL Run Log
+-- ==========================================================
+
 CREATE TABLE IF NOT EXISTS etl_run_log (
-    id            SERIAL PRIMARY KEY,
-    run_id        VARCHAR(100) UNIQUE NOT NULL,
-    source        VARCHAR(50) NOT NULL,
-    records_valid INT NOT NULL DEFAULT 0,
-    records_invalid INT NOT NULL DEFAULT 0,
-    status        VARCHAR(20) NOT NULL,   -- 'success' | 'partial' | 'failed'
-    started_at    TIMESTAMP NOT NULL,
-    finished_at   TIMESTAMP DEFAULT NOW()
+    id                 SERIAL PRIMARY KEY,
+    run_id             VARCHAR(100) UNIQUE NOT NULL,
+    source             VARCHAR(50) NOT NULL,
+    records_valid      INTEGER NOT NULL DEFAULT 0,
+    records_invalid    INTEGER NOT NULL DEFAULT 0,
+    status             VARCHAR(20) NOT NULL,
+    started_at         TIMESTAMP NOT NULL,
+    finished_at        TIMESTAMP DEFAULT NOW()
 );
